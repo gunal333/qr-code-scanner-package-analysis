@@ -1,10 +1,10 @@
 const path = require('path');
-const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
+// const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
 
 module.exports = {
-  plugins: [
-    new BundleAnalyzerPlugin()
-  ],
+  // plugins: [
+  //   new BundleAnalyzerPlugin()
+  // ],
   output: {
     path: path.join(__dirname,'/dist'),
     filename: "index.bundle.js",
