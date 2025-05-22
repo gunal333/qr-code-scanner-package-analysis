@@ -30,7 +30,7 @@ const Html5Qr = () => {
     <div>
       <p>Scan your badge here.</p>
       <button onClick={startScanner}>Start Scanner</button>
-      <div id="reader" style={{ width: "100%", maxHeight: "400px" }}></div>
+      <div id="reader" style={{ width: "100%", height: "100%" , border:"2px solid red" }}></div>
       <div>{decodedText}</div>
     </div>
   );
