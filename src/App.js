@@ -1,11 +1,11 @@
-import logo from './logo.svg';
 import './App.css';
-import QRScanner from './Scanner.jsx';
+import Html5Qr from './Html5Qr.jsx';
+import QRScanner from './QrScanner.jsx';
 
 function App() {
   return (
     <div className="App">
-      <QRScanner/>
+      <Html5Qr/>
     </div>
   );
 }
