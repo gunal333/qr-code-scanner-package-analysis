@@ -5,6 +5,8 @@ const Scanner = () => {
     const videoRef = useRef(null); // Reference to the video element
     const [qrResult, setQrResult] = useState(""); // State to store the scanned QR code result
     const [camera, setCamera] = useState("environment"); // State to manage camera selection
+    const [qrScannerInstance, setQrScannerInstance] = useState(null); // State to manage the QR scanner instance
+    
     useEffect(() => {
         const videoElem = videoRef.current;
 
@@ -19,12 +21,19 @@ const Scanner = () => {
             );
             qrScanner.turnFlashOn();
             qrScanner.start().catch((err) => console.error("Failed to start QR scanner:", err));
-            qrScanner.setCamera(camera); // Use the rear camera if available
+            qrScanner.setCamera("environment"); // Use the rear camera if available
+            setQrScannerInstance(qrScanner); // Store the QR scanner instance in state
             return () => {
                 qrScanner.stop(); // Stop the scanner when the component unmounts
             };
         }
-    }, [camera]);
+    }, []);
+
+    useEffect(() => {
+        if (qrScannerInstance) {
+            qrScannerInstance.setCamera(camera); // Set the camera based on the state
+        }
+    },[qrScannerInstance,camera]);
 
     const ToggleCamera=()=>{
         if (camera === "user") {
