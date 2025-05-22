@@ -17,7 +17,7 @@ const Scanner = () => {
                 },
                 { highlightScanRegion: true } // Optional: Highlight the scan region
             );
-
+            qrScanner.turnFlashOn();
             qrScanner.start().catch((err) => console.error("Failed to start QR scanner:", err));
 
             return () => {
