@@ -4,7 +4,7 @@ import { useEffect, useRef, useState } from "react";
 const Scanner = () => {
     const videoRef = useRef(null); // Reference to the video element
     const [qrResult, setQrResult] = useState(""); // State to store the scanned QR code result
-
+    const [camera, setCamera] = useState("user"); // State to manage camera selection
     useEffect(() => {
         const videoElem = videoRef.current;
 
@@ -19,12 +19,20 @@ const Scanner = () => {
             );
             qrScanner.turnFlashOn();
             qrScanner.start().catch((err) => console.error("Failed to start QR scanner:", err));
-
+            qrScanner.setCamera(camera); // Use the rear camera if available
             return () => {
                 qrScanner.stop(); // Stop the scanner when the component unmounts
             };
         }
-    }, []);
+    }, [camera]);
+
+    const ToggleCamera=()=>{
+        if (camera === "user") {
+            setCamera("environment");
+        } else {
+            setCamera("user");
+        }   
+    }
 
     return (
         <div>
@@ -34,6 +42,7 @@ const Scanner = () => {
                 <div>
                     <h2>Scanned QR Code:</h2>
                     <p>{qrResult.data}</p>
+                    <button onClick={ToggleCamera}>Toggle camera</button>
                 </div>
             )}
         </div>
