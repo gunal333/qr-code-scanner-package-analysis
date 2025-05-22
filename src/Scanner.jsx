@@ -4,7 +4,7 @@ import { useEffect, useRef, useState } from "react";
 const Scanner = () => {
     const videoRef = useRef(null); // Reference to the video element
     const [qrResult, setQrResult] = useState(""); // State to store the scanned QR code result
-    const [camera, setCamera] = useState("user"); // State to manage camera selection
+    const [camera, setCamera] = useState("environment"); // State to manage camera selection
     useEffect(() => {
         const videoElem = videoRef.current;
 
@@ -37,12 +37,12 @@ const Scanner = () => {
     return (
         <div>
             <p>Scan your badge here.</p>
+            <button onClick={ToggleCamera}>Toggle camera</button>
             <video ref={videoRef} style={{ width: "100%", maxHeight: "400px" }}></video>
             {qrResult && (
                 <div>
                     <h2>Scanned QR Code:</h2>
                     <p>{qrResult.data}</p>
-                    <button onClick={ToggleCamera}>Toggle camera</button>
                 </div>
             )}
         </div>
