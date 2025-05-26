@@ -38,6 +38,7 @@ const Html5Qr = () => {
     }
     const maxZoom = zoom.max();
     const newZoom = currentZoom + 1;
+    console.log("Zooming out to:", newZoom, maxZoom);
     if (html5QrCode != null && newZoom <= maxZoom) {
       html5QrCode.applyVideoConstraints({
         advanced: [{ zoom: newZoom }],
@@ -54,6 +55,7 @@ const Html5Qr = () => {
     }
     const minZoom = zoom.min();
     const newZoom = currentZoom - 1;
+    console.log("Zooming out to:", newZoom, minZoom);
     if (html5QrCode != null && newZoom >= minZoom) {
       html5QrCode.applyVideoConstraints({
         advanced: [{ zoom:newZoom }],
