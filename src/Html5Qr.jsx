@@ -30,7 +30,8 @@ const Html5Qr = () => {
 
   const zoomIn = () => {
     const zoom  = html5QrCode.getRunningTrackCameraCapabilities().zoomFeature();
-        console.log(zoom);
+        console.log(zoom , zoom.min(), zoom.max(),zoom.step());
+
     if (html5QrCode != null) {
       html5QrCode.applyVideoConstraints({
         advanced: [{ zoom: 10 }],
