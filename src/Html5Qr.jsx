@@ -29,7 +29,7 @@ const Html5Qr = () => {
   };
 
   const zoomIn = () => {
-    const zoom  = html5QrCode.getRunningTrackCameraCapabilities()
+    const zoom  = html5QrCode.getRunningTrackCameraCapabilities().zoomFeature();
         console.log(zoom);
     if (html5QrCode != null) {
       html5QrCode.applyVideoConstraints({
