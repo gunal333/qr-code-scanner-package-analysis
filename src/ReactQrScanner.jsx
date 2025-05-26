@@ -3,18 +3,37 @@ import { useState } from "react";
 
 const ReactQRScanner = () => {
     const [qrData, setQrData] = useState("");
+    const [facingMode, setFacingMode] = useState("environment"); // Default to rear camera
+    const [torch, setTorch] = useState(false); // Default to torch off
+
+    const toggleCamera = () => {
+        setFacingMode(facingMode === "environment" ? "user" : "environment");
+    };
+
+    const toggleTorch = () => {
+        setTorch(!torch);
+    };  
     return (
         <div>
             <p>Scan your badge here.</p>
-            <Scanner 
+            <button onClick={toggleCamera}>Toggle Camera</button>
+            <button onClick={toggleTorch}>Toggle Torch</button>
+            <Scanner
                 onScan={(result) => {
-                setQrData(result);
-                console.log(result)
-            }} 
-                onError={(err)=>{
-                   console.log("error on scanning:", err) 
+                    setQrData(result[0].rawValue);
+                    console.log(result);
                 }}
-                sound= { true}
+                onError={(err) => {
+                    console.log("error on scanning:", err);
+                }}
+                sound= {true}
+                constraints={{
+                    facingMode: facingMode // Use the rear camera by default
+                }}
+                components={{
+                    zoom: true,
+                    torch: torch,
+                }}
             />
             {qrData && (
                 <div>
