@@ -6,14 +6,23 @@ const Html5Qr = () => {
   const [html5QrCode, setHtml5QrCode] = useState(null);
   const [currentZoom, setCurrentZoom] = useState(1);
   const [facingMode, setFacingMode] = useState("environment");
+  
+  useEffect(()=>{
+    if(html5QrCode!=null){
+      startScanner();
+    }
+  },[facingMode])
   const startScanner = () => {
     const html5QrCode = new Html5Qrcode(/* element id */ "reader");
     html5QrCode
       .start(
-        { facingMode: "environment" }, // Use the rear camera if available
+        { facingMode: facingMode }, // Use the rear camera if available
         {
           fps: 10, // Optional, frame per seconds for qr code scanning
           qrbox: { width: 250, height: 250 }, // Optional, if you want bounded box UI
+          // videoConstraints: {
+          //   facingMode: facingMode,
+          // },
         },
         (decodedText, decodedResult) => {
           setDecodedText(decodedText); // Update the state with the scanned result
@@ -26,6 +35,7 @@ const Html5Qr = () => {
       )
       .catch((err) => {
         // Start failed, handle it.
+        console.log("start failed:", err);
       });
     setHtml5QrCode(html5QrCode); // Store the instance for later use
   };
@@ -65,6 +75,10 @@ const Html5Qr = () => {
   };
 
   const toggleCamera = () => {
+    let camCapabilities = html5QrCode.getRunningTrackCapabilities()
+    console.log("facing mode",facingMode);
+    console.log("camCapabilities",JSON.stringify(camCapabilities));
+    
     if (html5QrCode) {
       if (facingMode === "environment") {
         setFacingMode("user");
@@ -72,9 +86,16 @@ const Html5Qr = () => {
       else {
         setFacingMode("environment");
       }
-      html5QrCode.applyVideoConstraints({
-        advanced: [{ facingMode: facingMode }],
-      });
+      html5QrCode.stop()
+          .then(() => {
+            return html5QrCode.clear();
+          })
+          .then(() => {
+            console.log("Scanner stopped and cleared.");
+          })
+          .catch(err => {
+            console.error("Error stopping scanner: " + err);
+          });
     }
   }
 
