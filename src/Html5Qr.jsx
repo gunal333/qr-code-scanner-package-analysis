@@ -8,11 +8,11 @@ const Html5Qr = () => {
   const [torch, setTorch] = useState(false);
   const [facingMode, setFacingMode] = useState("environment");
   
-  useEffect(()=>{
-    if(html5QrCode!=null){
-      startScanner();
-    }
-  },[facingMode])
+  // useEffect(()=>{
+  //   if(html5QrCode!=null){
+  //     startScanner();
+  //   }
+  // },[facingMode])
   const startScanner = () => {
     const html5QrCode = new Html5Qrcode(/* element id */ "reader");
     html5QrCode
@@ -21,9 +21,9 @@ const Html5Qr = () => {
         {
           fps: 10, // Optional, frame per seconds for qr code scanning
           qrbox: { width: 250, height: 250 }, // Optional, if you want bounded box UI
-          // videoConstraints: {
-          //   facingMode: facingMode,
-          // },
+          videoConstraints: {
+            facingMode: facingMode,
+          },
         },
         (decodedText, decodedResult) => {
           setDecodedText(decodedText); // Update the state with the scanned result
@@ -81,22 +81,15 @@ const Html5Qr = () => {
     console.log("camCapabilities",JSON.stringify(camCapabilities));
     
     if (html5QrCode) {
-      if (facingMode === "environment") {
-        setFacingMode("user");
-      }
-      else {
-        setFacingMode("environment");
-      }
-      html5QrCode.stop()
-          .then(() => {
-            return html5QrCode.clear();
-          })
-          .then(() => {
-            console.log("Scanner stopped and cleared.");
-          })
-          .catch(err => {
-            console.error("Error stopping scanner: " + err);
-          });
+        if (facingMode === "environment") {
+            setFacingMode("user");
+        } else {
+            setFacingMode("environment");
+        }
+        html5QrCode.applyVideoConstraints({
+            facingMode: facingMode,
+            advanced: [{facingMode: facingMode}],
+        });
     }
   }
 
