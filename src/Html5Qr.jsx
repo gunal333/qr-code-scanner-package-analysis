@@ -29,6 +29,12 @@ const Html5Qr = () => {
           setDecodedText(decodedText); // Update the state with the scanned result
           console.log(decodedText, decodedResult); // Handle the decoded QR code text
           // do something when code is read
+            if(decodedText.includes("1234")){
+                navigator.vibrate(100)
+            }
+            else{
+                navigator.vibrate([100, 50, 100])
+            }
         },
         (errorMessage) => {
           // parse error, ignore it.
