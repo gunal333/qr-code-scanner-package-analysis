@@ -66,7 +66,7 @@ const Html5Qr = () => {
       <p>Scan your badge here.</p>
       <button onClick={startScanner}>Start Scanner</button>
       <button onClick={zoomIn}>Zoom in</button>
-      <button onClick={zoomOut}>Zoom in</button>
+      <button onClick={zoomOut}>Zoom out</button>
       <div
         id="reader"
         style={{ width: "100%", height: "100%", border: "2px solid red" }}
