@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 const Html5Qr = () => {
   const [decodedText, setDecodedText] = useState("");
   const [html5QrCode, setHtml5QrCode] = useState(null);
+  const [currentZoom, setCurrentZoom] = useState(1);
   const startScanner = () => {
     const html5QrCode = new Html5Qrcode(/* element id */ "reader");
     html5QrCode
@@ -30,20 +31,33 @@ const Html5Qr = () => {
 
   const zoomIn = () => {
     const zoom  = html5QrCode.getRunningTrackCameraCapabilities().zoomFeature();
-        console.log(zoom , zoom.min(), zoom.max(),zoom.step());
-
-    if (html5QrCode != null) {
+    if (zoom == null) {
+      console.error("Zoom feature is not supported by the camera.");
+      return;
+    }
+    const maxZoom = zoom.max();
+    const newZoom = currentZoom + 1;
+    if (html5QrCode != null && newZoom <= maxZoom) {
       html5QrCode.applyVideoConstraints({
-        advanced: [{ zoom: 10 }],
+        advanced: [{ zoom: newZoom }],
       });
+      setCurrentZoom(newZoom);
     }
   };
 
   const zoomOut = () => {
-    if (html5QrCode != null) {
+    const zoom  = html5QrCode.getRunningTrackCameraCapabilities().zoomFeature();
+    if (zoom == null) {
+      console.error("Zoom feature is not supported by the camera.");
+      return;
+    }
+    const minZoom = zoom.min();
+    const newZoom = currentZoom - 1;
+    if (html5QrCode != null && newZoom >= minZoom) {
       html5QrCode.applyVideoConstraints({
-        advanced: [{ zoom: 10 }],
+        advanced: [{ zoom:newZoom }],
       });
+      setCurrentZoom(newZoom);
     }
   };
 
