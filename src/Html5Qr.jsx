@@ -5,6 +5,7 @@ const Html5Qr = () => {
   const [decodedText, setDecodedText] = useState("");
   const [html5QrCode, setHtml5QrCode] = useState(null);
   const [currentZoom, setCurrentZoom] = useState(1);
+  const [torch, setTorch] = useState(false);
   const [facingMode, setFacingMode] = useState("environment");
   
   useEffect(()=>{
@@ -99,6 +100,19 @@ const Html5Qr = () => {
     }
   }
 
+    const toggleTorch = () => {
+        const torchFeature = html5QrCode.getRunningTrackCameraCapabilities().torchFeature();
+        if (!torchFeature) {
+            console.log("torch is not supported");
+            return;
+        }
+        html5QrCode.applyVideoConstraints({
+            torch: !torch,
+            advanced: [{torch: !torch}]
+        });
+        setTorch(!torch);
+    }
+
   return (
     <div>
       <p>Scan your badge here.</p>
@@ -106,6 +120,7 @@ const Html5Qr = () => {
       <button onClick={zoomIn}>Zoom in</button>
       <button onClick={zoomOut}>Zoom out</button>
       <button onClick={toggleCamera}>Toggle camera</button>
+      <button onClick={toggleTorch}>Torch</button>
       <div
         id="reader"
         style={{ width: "100%", height: "100%", border: "2px solid red" }}
