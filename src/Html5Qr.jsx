@@ -5,6 +5,7 @@ const Html5Qr = () => {
   const [decodedText, setDecodedText] = useState("");
   const [html5QrCode, setHtml5QrCode] = useState(null);
   const [currentZoom, setCurrentZoom] = useState(1);
+  const [facingMode, setFacingMode] = useState("environment");
   const startScanner = () => {
     const html5QrCode = new Html5Qrcode(/* element id */ "reader");
     html5QrCode
@@ -61,12 +62,27 @@ const Html5Qr = () => {
     }
   };
 
+  const toggleCamera = () => {
+    if (html5QrCode) {
+      if (facingMode === "environment") {
+        setFacingMode("user");
+      }
+      else {
+        setFacingMode("environment");
+      }
+      html5QrCode.applyVideoConstraints({
+        advanced: [{ facingMode: facingMode }],
+      });
+    }
+  }
+
   return (
     <div>
       <p>Scan your badge here.</p>
       <button onClick={startScanner}>Start Scanner</button>
       <button onClick={zoomIn}>Zoom in</button>
       <button onClick={zoomOut}>Zoom out</button>
+      <button onClick={toggleCamera}>Toggle camera</button>
       <div
         id="reader"
         style={{ width: "100%", height: "100%", border: "2px solid red" }}
