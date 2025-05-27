@@ -18,7 +18,7 @@ const ReactQRScanner = () => {
         if (pause) {
             setPause(!pause)
         }
-        console.log("Scanning paused");
+        console.log("Scanning paused:",pause);
     };
     return (
         <div>
