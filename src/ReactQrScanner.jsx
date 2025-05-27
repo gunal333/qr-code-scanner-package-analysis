@@ -15,9 +15,7 @@ const ReactQRScanner = () => {
         setTorch(!torch);
     };
     const onPause = () => {
-        if (pause) {
-            setPause(!pause)
-        }
+        setPause(!pause)
         console.log("Scanning paused:",pause);
     };
     return (
