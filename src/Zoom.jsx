@@ -15,6 +15,7 @@ export default function Zoom({ scanning, capabilities, onZoom, value }) {
 
     function handleZoomIn() {
         console.log("zoom in", capabilities)
+        console.log("value", value)
         onZoom(Math.min(value + stepSize, capabilities.max));
     }
 

@@ -15,9 +15,7 @@ const QRScanner = () => {
             step: 1
         }
     }); // State to manage the QR scanner instance
-    const [settings, setSettings] = useState({
-        zoom: 1
-    }); // State to manage the QR scanner instance
+    const [zoomValue, setZoomValue] = useState(1); // State to manage the zoom value
     const [videoTrack, setVideoTrack] = useState(null); // State to manage the QR scanner instance
 
     useEffect(() => {
@@ -45,8 +43,8 @@ const QRScanner = () => {
                 console.log("cap:", vt.getCapabilities());
                 console.log("settings:", vt.getSettings());
                 setCapabilities({...capabilities, ...vt.getCapabilities()});
-                setSettings({...settings, ...vt.getSettings()});
                 setVideoTrack(vt);
+                setZoomValue(vt.getSettings().zoom || 1); // Set initial zoom value
             }).catch((err) => {
                 console.error("Error accessing media devices:", err);
             });
@@ -102,8 +100,9 @@ const QRScanner = () => {
                         advanced: [{zoom: val}]
                     };
                     videoTrack.applyConstraints(newConstraints);
+                    setZoomValue(val);
                 }}
-                value={settings.zoom}/>
+                value={zoomValue}/>
         </div>
     );
 };
