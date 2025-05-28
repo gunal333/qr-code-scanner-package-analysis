@@ -1,5 +1,6 @@
 import {Scanner} from '@yudiel/react-qr-scanner';
 import {useState} from "react";
+import './ReactQrScanner.css';
 
 const ReactQRScanner = () => {
     const [qrData, setQrData] = useState("");
@@ -41,6 +42,9 @@ const ReactQRScanner = () => {
                     torch: torch,
                 }}
                 paused={pause}
+                classNames={{
+                    container: "scanner-container",
+                }}
             />
             {qrData && (
                 <div>

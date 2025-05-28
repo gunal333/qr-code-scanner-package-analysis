@@ -1,0 +1,16 @@
+
+/* 
+.scanner-container > div:nth-of-type(1) div div div div div{
+  padding: 15px; 
+  border-radius: 8px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  margin: 10px
+  }
+
+  .scanner-container > div:nth-of-type(1) > div > div > div > div{
+    border: none !important; 
+  } */
+
+  .scanner-container{
+    all:unset !important; /* Reset all styles */
+  }

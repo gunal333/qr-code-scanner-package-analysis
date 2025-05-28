@@ -1,10 +1,12 @@
 import QrScanner from "qr-scanner";
 import { useEffect, useRef, useState } from "react";
+import Zoom from "./Zoom.jsx";
 
 const QRScanner = () => {
     const videoRef = useRef(null); // Reference to the video element
     const [qrResult, setQrResult] = useState(""); // State to store the scanned QR code result
     const [camera, setCamera] = useState("environment"); // State to manage camera selection
+    const [isPaused, setIsPaused] = useState(false); // State to manage pause state
     const [qrScannerInstance, setQrScannerInstance] = useState(null); // State to manage the QR scanner instance
     
     useEffect(() => {
@@ -43,10 +45,23 @@ const QRScanner = () => {
         }   
     }
 
+    const PauseAndResumeCamera=()=>{
+        if (qrScannerInstance && !isPaused) {
+            qrScannerInstance.$video.pause(); // Pause the video initially
+            setIsPaused(true);
+        }
+        else if (qrScannerInstance && isPaused) {
+            qrScannerInstance.$video.play();
+            setIsPaused(false);
+        }
+    }
+
     return (
         <div>
             <p>Scan your badge here.</p>
             <button onClick={ToggleCamera}>Toggle camera</button>
+            <button onClick={PauseAndResumeCamera}>Pause camera</button>
+
             <video ref={videoRef} style={{ width: "100%", maxHeight: "400px" }}></video>
             {qrResult && (
                 <div>
@@ -54,6 +69,7 @@ const QRScanner = () => {
                     <p>{qrResult.data}</p>
                 </div>
             )}
+            <Zoom></Zoom>
         </div>
     );
 };
