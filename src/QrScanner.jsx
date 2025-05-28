@@ -18,6 +18,25 @@ const QRScanner = () => {
     const [zoomValue, setZoomValue] = useState(1); // State to manage the zoom value
     const [videoTrack, setVideoTrack] = useState(null); // State to manage the QR scanner instance
 
+    function getCameraCapabilities() {
+        navigator.mediaDevices.getUserMedia({
+            audio: false,
+            video: {
+              facingMode:camera  
+            }
+        }).then((stream) => {
+            let vt = stream.getVideoTracks()[0];
+            console.log("cap:", vt.getCapabilities());
+            console.log("settings:", vt.getSettings());
+            setCapabilities({...capabilities, ...vt.getCapabilities()});
+            setVideoTrack(vt);
+            setZoomValue(vt.getSettings().zoom || 1);
+
+        }).catch((err) => {
+            console.error("Error accessing media devices:", err);
+        });
+    }
+
     useEffect(() => {
         const videoElem = videoRef.current;
 
@@ -34,20 +53,7 @@ const QRScanner = () => {
             qrScanner.start().catch((err) => console.error("Failed to start QR scanner:", err));
             qrScanner.setCamera("environment"); // Use the rear camera if available
             setQrScannerInstance(qrScanner); // Store the QR scanner instance in state
-            navigator.mediaDevices.getUserMedia({
-                audio: false,
-                video: true
-            }).then((stream) => {
-                console.log("Stream:", stream);
-                let vt = stream.getVideoTracks()[0];
-                console.log("cap:", vt.getCapabilities());
-                console.log("settings:", vt.getSettings());
-                setCapabilities({...capabilities, ...vt.getCapabilities()});
-                setVideoTrack(vt);
-                setZoomValue(vt.getSettings().zoom || 1); // Set initial zoom value
-            }).catch((err) => {
-                console.error("Error accessing media devices:", err);
-            });
+            getCameraCapabilities();
             return () => {
                 qrScanner.stop(); // Stop the scanner when the component unmounts
             };
@@ -57,7 +63,8 @@ const QRScanner = () => {
 
     useEffect(() => {
         if (qrScannerInstance) {
-            qrScannerInstance.setCamera(camera); // Set the camera based on the state
+            qrScannerInstance.setCamera(camera);// Set the camera based on the state
+            getCameraCapabilities();
         }
     }, [qrScannerInstance, camera]);
 
