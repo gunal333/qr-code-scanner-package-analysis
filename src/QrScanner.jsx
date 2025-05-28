@@ -8,6 +8,7 @@ const QRScanner = () => {
     const [camera, setCamera] = useState("environment"); // State to manage camera selection
     const [isPaused, setIsPaused] = useState(false); // State to manage pause state
     const [qrScannerInstance, setQrScannerInstance] = useState(null); // State to manage the QR scanner instance
+    const [torch, setTorch] = useState(false);
     const [capabilities, setCapabilities] = useState({
         zoom: {
             min: 1,
@@ -68,6 +69,15 @@ const QRScanner = () => {
         }
     }, [qrScannerInstance, camera]);
 
+    const ToggleTorch = () => {
+        if(torch){
+            qrScannerInstance.turnFlashOff()
+        }
+        else{
+            qrScannerInstance.turnFlashOn()
+        }
+        setTorch(!torch)
+    }
     const ToggleCamera = () => {
         if (camera === "user") {
             setCamera("environment");
@@ -91,6 +101,7 @@ const QRScanner = () => {
             <p>Scan your badge here.</p>
             <button onClick={ToggleCamera}>Toggle camera</button>
             <button onClick={PauseAndResumeCamera}>Pause camera</button>
+            <button onClick={ToggleTorch}>Torch</button>
 
             <video ref={videoRef} style={{width: "100%", maxHeight: "400px"}}></video>
             {qrResult && (
