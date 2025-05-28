@@ -8,8 +8,16 @@ const QRScanner = () => {
     const [camera, setCamera] = useState("environment"); // State to manage camera selection
     const [isPaused, setIsPaused] = useState(false); // State to manage pause state
     const [qrScannerInstance, setQrScannerInstance] = useState(null); // State to manage the QR scanner instance
-    const [capabilities, setCapabilities] = useState(null); // State to manage the QR scanner instance
-    const [settings, setSettings] = useState(null); // State to manage the QR scanner instance
+    const [capabilities, setCapabilities] = useState({
+        zoom: {
+            min: 1,
+            max: 1,
+            step: 1
+        }
+    }); // State to manage the QR scanner instance
+    const [settings, setSettings] = useState({
+        zoom: 1
+    }); // State to manage the QR scanner instance
     const [videoTrack, setVideoTrack] = useState(null); // State to manage the QR scanner instance
 
     useEffect(() => {
@@ -36,8 +44,8 @@ const QRScanner = () => {
                 let vt = stream.getVideoTracks()[0];
                 console.log("cap:", vt.getCapabilities());
                 console.log("settings:", vt.getSettings());
-                setCapabilities(vt.getCapabilities());
-                setSettings(vt.getSettings());
+                setCapabilities({...capabilities, ...vt.getCapabilities()});
+                setSettings({...settings, ...vt.getSettings()});
                 setVideoTrack(vt);
             }).catch((err) => {
                 console.error("Error accessing media devices:", err);
@@ -88,14 +96,14 @@ const QRScanner = () => {
             )}
             <Zoom
                 scanning={true}
-                capabilities={capabilities}
+                capabilities={capabilities.zoom}
                 onZoom={(val) => {
                     const newConstraints = {
                         advanced: [{zoom: val}]
                     };
                     videoTrack.applyConstraints(newConstraints);
                 }}
-                value={settings}/>
+                value={settings.zoom}/>
         </div>
     );
 };
