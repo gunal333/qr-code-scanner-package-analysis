@@ -122,8 +122,13 @@ const Html5Qr = () => {
     
     const pauseScan = () => {
       if(html5QrCode){
-          html5QrCode.pause(!pause)
-          setPause(!pause)
+          if(!pause){
+              html5QrCode.pause(!pause);
+          }
+          else{
+              html5QrCode.resume()
+          }
+          setPause(!pause);
       }
     }
 
