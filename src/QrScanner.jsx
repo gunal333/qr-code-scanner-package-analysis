@@ -50,7 +50,6 @@ const QRScanner = () => {
                 },
                 {highlightScanRegion: true} // Optional: Highlight the scan region
             );
-            qrScanner.turnFlashOn();
             qrScanner.start().catch((err) => console.error("Failed to start QR scanner:", err));
             qrScanner.setCamera("environment"); // Use the rear camera if available
             setQrScannerInstance(qrScanner); // Store the QR scanner instance in state
