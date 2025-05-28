@@ -7,6 +7,7 @@ const Html5Qr = () => {
   const [currentZoom, setCurrentZoom] = useState(1);
   const [torch, setTorch] = useState(false);
   const [facingMode, setFacingMode] = useState("environment");
+  const [pause, setPause] = useState(false);
   
   useEffect(()=>{
     if(html5QrCode!=null){
@@ -118,6 +119,13 @@ const Html5Qr = () => {
         });
         setTorch(!torch);
     }
+    
+    const pauseScan = () => {
+      if(html5QrCode){
+          html5QrCode.pause(!pause)
+          setPause(!pause)
+      }
+    }
 
   return (
     <div>
@@ -127,6 +135,7 @@ const Html5Qr = () => {
       <button onClick={zoomOut}>Zoom out</button>
       <button onClick={toggleCamera}>Toggle camera</button>
       <button onClick={toggleTorch}>Torch</button>
+      <button onClick={pauseScan}>Pause</button>
       <div
         id="reader"
         style={{ width: "100%", height: "100%", border: "2px solid red" }}
