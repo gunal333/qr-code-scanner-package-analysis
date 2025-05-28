@@ -11,7 +11,7 @@ export default function Zoom({ scanning, capabilities, onZoom, value }) {
         return null;
     }
 
-    // const stepSize = (capabilities.max - capabilities.min) / 3;
+    const stepSize = (capabilities.max - capabilities.min) / 3;
 
     function handleZoomIn() {
         console.log("zoom in", capabilities)
