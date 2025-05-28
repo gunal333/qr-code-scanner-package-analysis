@@ -4,6 +4,7 @@ import Zoom from "./Zoom.jsx";
 
 const QRScanner = () => {
     const videoRef = useRef(null); // Reference to the video element
+    const customUiRef = useRef(null); // Reference to the video element
     const [qrResult, setQrResult] = useState(""); // State to store the scanned QR code result
     const [camera, setCamera] = useState("environment"); // State to manage camera selection
     const [isPaused, setIsPaused] = useState(false); // State to manage pause state
@@ -48,7 +49,11 @@ const QRScanner = () => {
                     console.log("Decoded QR code:", result);
                     setQrResult(result); // Update the state with the scanned result
                 },
-                {highlightScanRegion: true} // Optional: Highlight the scan region
+                {
+                    highlightScanRegion: true,
+                    overlay: customUiRef.current
+                } // Optional: Highlight the scan region
+                
             );
             qrScanner.start().catch((err) => console.error("Failed to start QR scanner:", err));
             qrScanner.setCamera("environment"); // Use the rear camera if available
@@ -103,6 +108,8 @@ const QRScanner = () => {
             <button onClick={ToggleTorch}>Torch</button>
 
             <video ref={videoRef} style={{width: "100%", maxHeight: "400px"}}></video>
+            <div ref={customUiRef} style={{border:"15px solid rgba(0,0,0,0.5)"}}> Hello </div>
+            
             {qrResult && (
                 <div>
                     <h2>Scanned QR Code:</h2>
