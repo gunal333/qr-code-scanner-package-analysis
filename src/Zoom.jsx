@@ -11,27 +11,27 @@ export default function Zoom({ scanning, capabilities, onZoom, value }) {
         return null;
     }
 
-    const stepSize = (capabilities.max - capabilities.min) / 3;
+    // const stepSize = (capabilities.max - capabilities.min) / 3;
 
     function handleZoomIn() {
         console.log("zoom in", capabilities)
-        onZoom(Math.min(value + stepSize, capabilities.max));
+        // onZoom(Math.min(value + stepSize, capabilities.max));
     }
 
     function handleZoomOut() {
-        onZoom(Math.max(value - stepSize, capabilities.min));
+        // onZoom(Math.max(value - stepSize, capabilities.min));
     }
 
     return (
         <div>
             <div style={{ bottom: 130, right: 8, position: 'absolute', zIndex: 2, cursor: 'pointer' }}>
                 <button 
-                    disabled={value <= capabilities.min} 
+                    // disabled={value <= capabilities.min} 
                     onClick={handleZoomOut}>Zoom out</button>
             </div>
             <div style={{ bottom: 180, right: 8, position: 'absolute', zIndex: 2, cursor: 'pointer' }}>
                 <button 
-                    disabled={value >= capabilities.max} 
+                    // disabled={value >= capabilities.max} 
                     onClick={handleZoomIn}>Zoom in</button>
             </div>
         </div>
