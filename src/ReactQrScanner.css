@@ -12,5 +12,5 @@
   } */
 
   .scanner-container{
-    all:unset !important; /* Reset all styles */
+    /*all:unset !important; !* Reset all styles *!*/
   }
